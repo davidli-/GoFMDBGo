@@ -14,6 +14,8 @@
 		0A86997C20AB5CC5009DE0F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A86997B20AB5CC5009DE0F7 /* Assets.xcassets */; };
 		0A86997F20AB5CC5009DE0F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A86997D20AB5CC5009DE0F7 /* LaunchScreen.storyboard */; };
 		0A86998220AB5CC5009DE0F7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A86998120AB5CC5009DE0F7 /* main.m */; };
+		0A86998A20AC3129009DE0F7 /* FMDBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A86998920AC3129009DE0F7 /* FMDBHelper.m */; };
+		3085A505A8F5DAAF46914BEB /* libPods-GofmdbGo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2431F867A6B4CC483CDAA656 /* libPods-GofmdbGo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,11 @@
 		0A86997E20AB5CC5009DE0F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A86998020AB5CC5009DE0F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A86998120AB5CC5009DE0F7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0A86998820AC3129009DE0F7 /* FMDBHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDBHelper.h; sourceTree = "<group>"; };
+		0A86998920AC3129009DE0F7 /* FMDBHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDBHelper.m; sourceTree = "<group>"; };
+		172E2B74E7257131AF147235 /* Pods-GofmdbGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GofmdbGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GofmdbGo/Pods-GofmdbGo.debug.xcconfig"; sourceTree = "<group>"; };
+		2431F867A6B4CC483CDAA656 /* libPods-GofmdbGo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GofmdbGo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		54F118F86310A38060D1E173 /* Pods-GofmdbGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GofmdbGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-GofmdbGo/Pods-GofmdbGo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3085A505A8F5DAAF46914BEB /* libPods-GofmdbGo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +54,8 @@
 			children = (
 				0A86996E20AB5CC2009DE0F7 /* GofmdbGo */,
 				0A86996D20AB5CC2009DE0F7 /* Products */,
+				71630E060D37E1975136A845 /* Pods */,
+				9349ED5D96270E56098554A7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +74,7 @@
 				0A86997020AB5CC2009DE0F7 /* AppDelegate.m */,
 				0A86997220AB5CC2009DE0F7 /* ViewController.h */,
 				0A86997320AB5CC2009DE0F7 /* ViewController.m */,
+				0A86998B20AC40A1009DE0F7 /* FMDBHelper */,
 				0A86997520AB5CC2009DE0F7 /* Main.storyboard */,
 				0A86997B20AB5CC5009DE0F7 /* Assets.xcassets */,
 				0A86997D20AB5CC5009DE0F7 /* LaunchScreen.storyboard */,
@@ -74,6 +85,32 @@
 			path = GofmdbGo;
 			sourceTree = "<group>";
 		};
+		0A86998B20AC40A1009DE0F7 /* FMDBHelper */ = {
+			isa = PBXGroup;
+			children = (
+				0A86998820AC3129009DE0F7 /* FMDBHelper.h */,
+				0A86998920AC3129009DE0F7 /* FMDBHelper.m */,
+			);
+			path = FMDBHelper;
+			sourceTree = "<group>";
+		};
+		71630E060D37E1975136A845 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				172E2B74E7257131AF147235 /* Pods-GofmdbGo.debug.xcconfig */,
+				54F118F86310A38060D1E173 /* Pods-GofmdbGo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9349ED5D96270E56098554A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2431F867A6B4CC483CDAA656 /* libPods-GofmdbGo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -81,6 +118,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A86998520AB5CC5009DE0F7 /* Build configuration list for PBXNativeTarget "GofmdbGo" */;
 			buildPhases = (
+				E34D56AB460AE5B237680948 /* [CP] Check Pods Manifest.lock */,
 				0A86996820AB5CC2009DE0F7 /* Sources */,
 				0A86996920AB5CC2009DE0F7 /* Frameworks */,
 				0A86996A20AB5CC2009DE0F7 /* Resources */,
@@ -139,12 +177,34 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		E34D56AB460AE5B237680948 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GofmdbGo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0A86996820AB5CC2009DE0F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				0A86997A20AB5CC2009DE0F7 /* GofmdbGo.xcdatamodeld in Sources */,
+				0A86998A20AC3129009DE0F7 /* FMDBHelper.m in Sources */,
 				0A86997420AB5CC2009DE0F7 /* ViewController.m in Sources */,
 				0A86998220AB5CC5009DE0F7 /* main.m in Sources */,
 				0A86997120AB5CC2009DE0F7 /* AppDelegate.m in Sources */,
@@ -285,6 +345,7 @@
 		};
 		0A86998620AB5CC5009DE0F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 172E2B74E7257131AF147235 /* Pods-GofmdbGo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -301,6 +362,7 @@
 		};
 		0A86998720AB5CC5009DE0F7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 54F118F86310A38060D1E173 /* Pods-GofmdbGo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

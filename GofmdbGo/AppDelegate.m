@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "FMDBHelper.h"
 @interface AppDelegate ()
 
 @end
@@ -15,37 +15,31 @@
 @implementation AppDelegate
 
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+- (BOOL)application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //CoreData
+    [self insertData];
+    [self fetchData];
+    
+    /*FMDB：
+     iOS中使用C语言函数对原生SQLite数据库进行增删改查操作，复杂麻烦，于是，就出现了一系列将SQLite API封装的库，如FMDB
+     FMDB是针对libsqlite3框架进行封装的三方，它以OC的方式封装了SQLite的C语言的API
+     FMDB的优点是：
+     (1) 使用时面向对象，避免了复杂的C语言代码
+     (2) 对比苹果自带的Core Data框架，更加轻量级和灵活
+     (3) 提供多线程安全处理数据库操作方法，保证多线程安全跟数据准确性
+     */
+    FMDBHelper *helper = [FMDBHelper shareInstance];
+//    [helper createTable];
+//    [helper insertData];
+//    [helper queryData];
+//    [helper updateData];
+//    [helper deleteData];
+    [helper operatInQueue];
     return YES;
 }
 
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-}
-
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-}
-
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
 }
 
@@ -61,24 +55,11 @@
             _persistentContainer = [[NSPersistentContainer alloc] initWithName:@"GofmdbGo"];
             [_persistentContainer loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription *storeDescription, NSError *error) {
                 if (error != nil) {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    
-                    /*
-                     Typical reasons for an error here include:
-                     * The parent directory does not exist, cannot be created, or disallows writing.
-                     * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                     * The device is out of space.
-                     * The store could not be migrated to the current model version.
-                     Check the error message to determine what the actual problem was.
-                    */
                     NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-                    abort();
                 }
             }];
         }
     }
-    
     return _persistentContainer;
 }
 
@@ -88,11 +69,59 @@
     NSManagedObjectContext *context = self.persistentContainer.viewContext;
     NSError *error = nil;
     if ([context hasChanges] && ![context save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
         NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-        abort();
     }
 }
 
+
+
+#pragma mark -Business
+- (void)insertData
+{
+    NSManagedObjectContext *context1 = [self.persistentContainer viewContext];
+    for(int i = 0; i < 5; i++)
+    {
+        //创建CoreData模型，注意这里的参数上下文是基于多线程的
+        NSManagedObject *person = [NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:context1];
+        //赋值
+        [person setValue:[NSString stringWithFormat:@"Name+%d",i] forKey:@"name"];
+        [person setValue:@(i) forKey:@"age"];
+    }
+    //    [self.persistentContainer performBackgroundTask:^(NSManagedObjectContext * contenxtInBlock) {
+    NSError *error;
+    [context1 save:&error];//这里不能使用block中的contenxtInBlock，而必须要使用上面的context1（在哪一个上下文中添加，就在哪一个上下文中保存）
+    if (error) {
+        NSLog(@"++++save 出错！");
+    }
+    //    }];
+}
+
+- (void)fetchData
+{
+    NSManagedObjectContext *context1 = [self.persistentContainer viewContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Person" inManagedObjectContext:context1];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name='Name+0'"];
+    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name like %@",@"*Name*"];
+    [fetchRequest setPredicate:predicate];
+    // Specify how the fetched objects should be sorted
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"age"
+                                                                   ascending:YES];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
+    
+    //    [self.persistentContainer performBackgroundTask:^(NSManagedObjectContext * contextInblock) {
+    NSError *error = nil;
+    NSArray *fetchedObjects = [context1 executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects.count) {
+        NSInteger count = fetchedObjects.count;
+        for (int i = 0; i < count; i++) {
+            NSManagedObject *obj = fetchedObjects[i];
+            NSString *name = [obj valueForKey:@"name"];
+            NSLog(@"+++++Name:%@",name);
+        }
+    }
+    //    }];
+}
 @end
